@@ -1,22 +1,30 @@
 import tkinter as tk
 from utils import *
+from elements import *
 
 def appimage_path():
     appimage = open_file_dialog()
     print(f"AppImage: {appimage}")
 
 def app_icon_path():
-    icon = open_file_dialog()
-    print(f"App Icon: {icon}")
+    global icon_path
+    icon_path = open_file_dialog()
+    icon_path = icon_preview(tk, icon_prev_frame, icon_path=icon_path)
 
-root = tk.Tk()
-root.title("AppImage Installer")
-root.geometry("600x400")
+if __name__ == '__main__':
+    root = tk.Tk()
+    root.title("AppImage Installer")
+    root.geometry("600x400")
 
-appimage_selection_button = tk.Button(root, text="Choose An App Image", command=app_icon_path)
-appimage_selection_button.pack(pady=20)
+    icon_path = None
 
-app_icon_selection_button = tk.Button(root, text="Choose An Icon", command=app_icon_path)
-app_icon_selection_button.pack(pady=20)
+    btn_frame = button_frame(tk, root)
+    icon_prev_frame = icon_preview_frame(tk, root)
 
-root.mainloop()
+    select_appimage_btn(tk, btn_frame, appimage_path)
+    select_app_icon_btn(tk, btn_frame, app_icon_path)
+
+    icon_preview(tk, icon_prev_frame, icon_path=icon_path)
+
+    check_for_app_folder()
+    root.mainloop()
